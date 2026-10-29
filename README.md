@@ -2,6 +2,12 @@
 
 A desktop document editor for real **Word (`.docx`)** and **Markdown (`.md`)** files, for macOS, Windows, and Linux.
 
+## Download
+
+Builds for all three platforms are on the [releases page](https://github.com/sw7ft/jarvisdoc/releases/latest): a universal `.dmg` for macOS, an installer and a portable `.exe` for Windows, and `.AppImage`, `.deb` and `.rpm` for Linux.
+
+The builds are not signed with a paid developer certificate, so each system will want confirmation the first time. On macOS, right-click the app and choose **Open** rather than double-clicking, or run `xattr -dr com.apple.quarantine /Applications/JarvisDoc.app`. On Windows, choose **More info → Run anyway** on the SmartScreen prompt. On Linux, mark the AppImage executable with `chmod +x`.
+
 Word files stay Office Open XML. Opening a `.docx` keeps its page size, margins, headers, footers, and embedded images in the package. Fonts, colors, tables, lists, and pictures in the body round-trip back into the same document. Headers and footers are shown on the page and left untouched so page numbers and letterhead survive a save.
 
 Saving an unedited Word file writes that same `.docx` back out, so the original formatting stays intact. **Save as PDF** builds the PDF from that Word file. Markdown keeps headings, lists, and links. Fonts, colors, tables, and images are stored when you save as Word.
