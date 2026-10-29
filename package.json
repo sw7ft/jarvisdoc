@@ -131,6 +131,7 @@
       "shortcutName": "JarvisDoc"
     },
     "linux": {
+      "maintainer": "SW7FT <149521204+sw7ft@users.noreply.github.com>",
       "target": [
         {
           "target": "AppImage",
