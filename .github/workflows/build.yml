@@ -1,0 +1,74 @@
+name: Build
+
+# Windows and Linux installers cannot be produced on a Mac, so the matrix builds
+# each target on its own runner. Pushing a v* tag turns the artifacts into a release.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            name: macOS (universal)
+            script: dist:mac
+            artifacts: |
+              release/*.dmg
+              release/*.zip
+          - os: windows-latest
+            name: Windows (x64, arm64)
+            script: dist:win
+            artifacts: |
+              release/*.exe
+          - os: ubuntu-latest
+            name: Linux (x64, arm64)
+            script: dist:linux
+            artifacts: |
+              release/*.AppImage
+              release/*.deb
+              release/*.rpm
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install rpm tooling
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - run: npm ci
+
+      - name: Check syntax
+        run: node -e "['main.js','preload.js','doc-io.js','docx-io.js','export-pdf.js','md-fidelity.js','ooxml.js','versions.js','renderer/editor.js','renderer/guide.js'].forEach(f=>require('child_process').execFileSync(process.execPath,['--check',f]))"
+
+      - name: Build
+        run: npm run ${{ matrix.script }}
+        env:
+          # Unsigned builds: there are no certificates in CI.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jarvisdoc-${{ matrix.os }}
+          path: ${{ matrix.artifacts }}
+          if-no-files-found: error
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.artifacts }}

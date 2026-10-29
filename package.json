@@ -1,0 +1,192 @@
+{
+  "name": "jarvisdoc",
+  "version": "0.1.0",
+  "description": "JarvisDoc — a document editor for Word (.docx) and Markdown (.md)",
+  "main": "main.js",
+  "author": "SW7FT",
+  "license": "UNLICENSED",
+  "private": true,
+  "homepage": "https://github.com/sw7ft/jarvisdoc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sw7ft/jarvisdoc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sw7ft/jarvisdoc/issues"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist:mac": "electron-builder --mac dmg zip --universal",
+    "dist:mac:local": "electron-builder --mac dir --arm64",
+    "dist:win": "electron-builder --win nsis portable --x64 --arm64",
+    "dist:linux": "electron-builder --linux AppImage deb rpm --x64 --arm64",
+    "dist:all": "npm run dist:mac && npm run dist:win && npm run dist:linux"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "docx": "^9.5.0",
+    "jszip": "^3.10.1",
+    "markdown-it": "^14.1.0",
+    "turndown": "^7.2.0"
+  },
+  "devDependencies": {
+    "electron": "^37.10.3",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.sw7ft.jarvisdoc",
+    "productName": "JarvisDoc",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "docx-io.js",
+      "doc-io.js",
+      "md-fidelity.js",
+      "ooxml.js",
+      "export-pdf.js",
+      "versions.js",
+      "renderer/**/*"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "docx",
+        "name": "Word Document",
+        "description": "Microsoft Word Document",
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "role": "Editor",
+        "rank": "Owner"
+      },
+      {
+        "ext": "md",
+        "name": "Markdown Document",
+        "description": "Markdown Document",
+        "mimeType": "text/markdown",
+        "role": "Editor",
+        "rank": "Alternate"
+      },
+      {
+        "ext": "markdown",
+        "name": "Markdown Document",
+        "description": "Markdown Document",
+        "mimeType": "text/markdown",
+        "role": "Editor",
+        "rank": "Alternate"
+      },
+      {
+        "ext": "txt",
+        "name": "Plain Text Document",
+        "description": "Plain Text Document",
+        "mimeType": "text/plain",
+        "role": "Editor",
+        "rank": "Alternate"
+      }
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.productivity",
+      "darkModeSupport": true,
+      "minimumSystemVersion": "11.0"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "JarvisDoc"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "rpm",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Office",
+      "synopsis": "Word and Markdown document editor",
+      "icon": "build/icon.png",
+      "desktop": {
+        "entry": {
+          "Name": "JarvisDoc",
+          "Categories": "Office;WordProcessor;",
+          "MimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document;text/markdown;"
+        }
+      }
+    },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libsecret-1-0"
+      ],
+      "recommends": [
+        "libreoffice-writer",
+        "fonts-crosextra-carlito",
+        "fonts-crosextra-caladea"
+      ]
+    },
+    "rpm": {
+      "depends": [
+        "libnotify",
+        "libXScrnSaver",
+        "libsecret"
+      ]
+    }
+  }
+}

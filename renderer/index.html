@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'"
+    />
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="chrome">
+      <div class="titlebar">
+        <span id="doc-name" class="title-name">Untitled</span>
+        <span id="doc-dirty" class="title-dot" title="Unsaved changes" hidden></span>
+        <span id="doc-format" class="badge">Word · .docx</span>
+        <span id="doc-readonly" class="badge badge-warn" title="This file belongs to another user or is locked. Saving will ask for a new name." hidden>Read-only</span>
+      </div>
+
+      <div class="ribbon" role="toolbar" aria-label="Formatting">
+        <div class="group">
+          <select id="style-select" class="field field-wide" aria-label="Paragraph style" title="Paragraph style">
+            <option value="p">Body</option>
+            <option value="h1">Title</option>
+            <option value="h2">Heading</option>
+            <option value="h3">Subheading</option>
+            <option value="h4">Minor heading</option>
+          </select>
+        </div>
+
+        <div class="group">
+          <select id="font-select" class="field field-font" aria-label="Font" title="Font">
+            <option style="font-family: Calibri">Calibri</option>
+            <option style="font-family: 'Calibri Light'">Calibri Light</option>
+            <option style="font-family: Cambria">Cambria</option>
+            <option style="font-family: Georgia">Georgia</option>
+            <option style="font-family: 'Times New Roman'">Times New Roman</option>
+            <option style="font-family: Arial">Arial</option>
+            <option style="font-family: Helvetica">Helvetica</option>
+            <option style="font-family: Palatino">Palatino</option>
+            <option style="font-family: 'Courier New'">Courier New</option>
+            <option style="font-family: Menlo">Menlo</option>
+          </select>
+          <select id="size-select" class="field field-size" aria-label="Font size" title="Font size">
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11" selected>11</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+            <option value="24">24</option>
+            <option value="28">28</option>
+            <option value="36">36</option>
+            <option value="48">48</option>
+            <option value="72">72</option>
+          </select>
+        </div>
+
+        <div class="group">
+          <button class="btn" data-cmd="bold" title="Bold  ⌘B" aria-label="Bold"><span class="glyph bold">B</span></button>
+          <button class="btn" data-cmd="italic" title="Italic  ⌘I" aria-label="Italic"><span class="glyph italic">I</span></button>
+          <button class="btn" data-cmd="underline" title="Underline  ⌘U" aria-label="Underline"><span class="glyph underline">U</span></button>
+          <button class="btn" data-cmd="strike" title="Strikethrough" aria-label="Strikethrough"><span class="glyph strike">S</span></button>
+          <button class="btn" data-cmd="sup" title="Superscript" aria-label="Superscript"><span class="glyph">x<sup>2</sup></span></button>
+          <button class="btn" data-cmd="sub" title="Subscript" aria-label="Subscript"><span class="glyph">x<sub>2</sub></span></button>
+        </div>
+
+        <div class="group">
+          <label class="swatch" title="Text color">
+            <span class="swatch-glyph">A</span>
+            <span class="swatch-bar" id="color-bar"></span>
+            <input id="color-input" type="color" value="#1c1a16" aria-label="Text color" />
+          </label>
+          <label class="swatch" title="Highlight">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M4.2 10.8 10.4 4.6a1.7 1.7 0 0 1 2.4 2.4l-6.2 6.2H4.2z" />
+              <path d="M3 14.6h10" />
+            </svg>
+            <span class="swatch-bar" id="highlight-bar"></span>
+            <input id="highlight-input" type="color" value="#fff176" aria-label="Highlight color" />
+          </label>
+        </div>
+
+        <div class="group">
+          <button class="btn" data-cmd="ul" title="Bulleted list" aria-label="Bulleted list">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <circle cx="2.6" cy="4" r="1.15" class="solid" />
+              <circle cx="2.6" cy="8" r="1.15" class="solid" />
+              <circle cx="2.6" cy="12" r="1.15" class="solid" />
+              <path d="M6.2 4h8M6.2 8h8M6.2 12h8" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="ol" title="Numbered list" aria-label="Numbered list">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <text class="num" x="0" y="5.6">1</text>
+              <text class="num" x="0" y="9.9">2</text>
+              <text class="num" x="0" y="14.2">3</text>
+              <path d="M6.2 4h8M6.2 8.3h8M6.2 12.6h8" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="outdent" title="Decrease indent  ⌘[" aria-label="Decrease indent">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2 3h12M7 6.7h7M7 10.3h7M2 14h12" />
+              <path d="M4.4 7.4 2.3 9.5l2.1 2.1" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="indent" title="Increase indent  ⌘]" aria-label="Increase indent">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2 3h12M7 6.7h7M7 10.3h7M2 14h12" />
+              <path d="M2.3 7.4 4.4 9.5l-2.1 2.1" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="group">
+          <button class="btn" data-cmd="left" title="Align left" aria-label="Align left">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.4h12M2 6.8h7.5M2 10.2h12M2 13.6h7.5" /></svg>
+          </button>
+          <button class="btn" data-cmd="center" title="Align center" aria-label="Align center">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.4h12M4.25 6.8h7.5M2 10.2h12M4.25 13.6h7.5" /></svg>
+          </button>
+          <button class="btn" data-cmd="right" title="Align right" aria-label="Align right">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.4h12M6.5 6.8h7.5M2 10.2h12M6.5 13.6h7.5" /></svg>
+          </button>
+          <button class="btn" data-cmd="justify" title="Justify" aria-label="Justify">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.4h12M2 6.8h12M2 10.2h12M2 13.6h12" /></svg>
+          </button>
+        </div>
+
+        <div class="group">
+          <button class="btn" data-cmd="link" title="Insert link  ⌘K" aria-label="Insert link">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M6.6 9.4a2.9 2.9 0 0 0 4.1 0l2-2a2.9 2.9 0 1 0-4.1-4.1l-.8.8" />
+              <path d="M9.4 6.6a2.9 2.9 0 0 0-4.1 0l-2 2a2.9 2.9 0 1 0 4.1 4.1l.8-.8" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="image" title="Insert image" aria-label="Insert image">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <rect x="2" y="3" width="12" height="10" rx="1.6" />
+              <circle cx="5.7" cy="6.4" r="1.05" />
+              <path d="m2.9 11.6 3-3 2.4 2.4 2.1-2.1 2.7 2.7" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="table" title="Insert table" aria-label="Insert table">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <rect x="2" y="3" width="12" height="10" rx="1.4" />
+              <path d="M2 6.6h12M2 9.9h12M6.4 3v10M10.2 3v10" />
+            </svg>
+          </button>
+          <button class="btn" data-cmd="clear" title="Clear formatting" aria-label="Clear formatting">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8.7 3.1 3.2 8.6a1.5 1.5 0 0 0 0 2.2l2 2h3.2l5.4-5.4a1.5 1.5 0 0 0 0-2.2l-2.9-2.9a1.5 1.5 0 0 0-2.2 0z" />
+              <path d="m6 5.8 4.9 4.9" />
+              <path d="M2.6 14.3h10.8" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div id="preview-banner" class="preview-banner" hidden>
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" />
+          <path d="M8 4.6V8l2.3 1.6" />
+        </svg>
+        <span id="preview-label">Viewing an older version</span>
+        <button id="preview-restore" class="pill pill-strong">Restore This Version</button>
+        <button id="preview-done" class="pill">Done</button>
+      </div>
+      <div class="paper-wrap">
+        <article class="page">
+          <div
+            id="header-preview"
+            class="doc-band doc-header"
+            title="Header from the Word file. It stays in the document when you save."
+            hidden
+          ></div>
+          <div
+            id="editor"
+            contenteditable="true"
+            spellcheck="true"
+            role="textbox"
+            aria-multiline="true"
+            aria-label="Document"
+          >
+            <p></p>
+          </div>
+          <div
+            id="footer-preview"
+            class="doc-band doc-footer"
+            title="Footer from the Word file. It stays in the document when you save."
+            hidden
+          ></div>
+        </article>
+      </div>
+    </main>
+
+    <aside id="versions" class="versions" hidden aria-label="Version history">
+      <header class="versions-head">
+        <span class="versions-title">Version History</span>
+        <button id="versions-close" class="icon-btn" title="Close" aria-label="Close version history">✕</button>
+      </header>
+      <div id="versions-list" class="versions-list"></div>
+      <footer class="versions-foot">
+        <button id="version-save" class="pill pill-wide">Save a Version</button>
+      </footer>
+    </aside>
+
+    <aside id="mdpanel" class="sidepanel" hidden aria-label="Markdown view">
+      <header class="versions-head">
+        <span class="versions-title">Markdown</span>
+        <button id="md-close" class="icon-btn" title="Close" aria-label="Close Markdown view">✕</button>
+      </header>
+      <div class="md-tabs" role="tablist">
+        <button class="md-tab active" data-md-tab="source" role="tab">Source</button>
+        <button class="md-tab" data-md-tab="fit" role="tab">What fits</button>
+        <button class="md-tab" data-md-tab="learn" role="tab">Cheat sheet</button>
+      </div>
+      <div class="md-body">
+        <pre id="md-source" class="md-source"></pre>
+        <div id="md-fit" class="md-fit" hidden></div>
+        <div id="md-learn" class="md-learn" hidden>
+          <p class="md-note">Everything below works as you type, in Word files too.</p>
+          <dl class="md-keys">
+            <dt># </dt><dd>Title</dd>
+            <dt>## </dt><dd>Heading</dd>
+            <dt>### </dt><dd>Subheading</dd>
+            <dt>- </dt><dd>Bullet list</dd>
+            <dt>1. </dt><dd>Numbered list</dd>
+            <dt>&gt; </dt><dd>Quote</dd>
+            <dt>**bold**</dt><dd>Bold</dd>
+            <dt>*italic*</dt><dd>Italic</dd>
+            <dt>~~strike~~</dt><dd>Strikethrough</dd>
+            <dt>`code`</dt><dd>Code</dd>
+            <dt>[text](url)</dt><dd>Link</dd>
+            <dt>---</dt><dd>Divider</dd>
+            <dt>```</dt><dd>Code block</dd>
+          </dl>
+          <p class="md-note">Tab indents a list. Shift-Tab moves it back out.</p>
+        </div>
+      </div>
+      <footer class="versions-foot">
+        <button id="md-copy" class="pill pill-wide">Copy Markdown</button>
+      </footer>
+    </aside>
+
+    <div id="hint" class="hint" hidden>
+      <span class="hint-spark" aria-hidden="true">✦</span>
+      <span id="hint-text" class="hint-text"></span>
+      <button id="hint-action" class="hint-btn hint-strong" hidden></button>
+      <button id="hint-got" class="hint-btn">Got it</button>
+      <button id="hint-close" class="hint-x" title="Dismiss" aria-label="Dismiss">✕</button>
+    </div>
+
+    <footer class="statusbar">
+      <span id="word-count">0 words</span>
+      <span class="dot-sep"></span>
+      <span id="char-count">0 characters</span>
+      <span class="grow"></span>
+      <button id="md-toggle" class="status-btn" title="Markdown view  ⌥⌘M">
+        <span id="md-dot" class="md-dot"></span>
+        <span id="md-state">Markdown</span>
+      </button>
+      <span class="dot-sep"></span>
+      <button id="versions-toggle" class="status-btn" title="Version history  ⌥⌘V">
+        <svg class="icon icon-sm" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" />
+          <path d="M8 4.6V8l2.3 1.6" />
+        </svg>
+        <span id="versions-count">No versions</span>
+      </button>
+      <span class="dot-sep"></span>
+      <div class="zoom">
+        <button id="zoom-out" class="zoom-btn" title="Zoom out  ⌘−" aria-label="Zoom out">−</button>
+        <button id="zoom-reset" class="zoom-value" title="Actual size  ⌘0">100%</button>
+        <button id="zoom-in" class="zoom-btn" title="Zoom in  ⌘+" aria-label="Zoom in">+</button>
+      </div>
+    </footer>
+
+    <div id="find-bar" class="find-bar" role="search" hidden>
+      <div class="find-row">
+        <svg class="icon find-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.4" />
+          <path d="m10.3 10.3 3.2 3.2" />
+        </svg>
+        <input id="find-input" type="text" placeholder="Find in document" aria-label="Find in document" />
+        <span id="find-count" class="find-count"></span>
+        <button id="find-prev" class="find-btn" title="Previous" aria-label="Previous match">‹</button>
+        <button id="find-next" class="find-btn" title="Next" aria-label="Next match">›</button>
+        <button id="find-close" class="find-btn find-done" title="Close">Done</button>
+      </div>
+      <div id="replace-row" class="find-row" hidden>
+        <svg class="icon find-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 5.5h8.2L9 3.3" />
+          <path d="M13 10.5H4.8L7 12.7" />
+        </svg>
+        <input id="replace-input" type="text" placeholder="Replace with" aria-label="Replace with" />
+        <button id="replace-one" class="find-btn find-done" title="Replace this match">Replace</button>
+        <button id="replace-all" class="find-btn find-done" title="Replace every match">All</button>
+      </div>
+    </div>
+
+    <div id="guide" class="guide">
+      <section id="guide-bubble" class="guide-bubble" hidden role="dialog" aria-label="Why Markdown">
+        <header class="guide-head">
+          <span class="guide-kicker">Why Markdown</span>
+          <span id="guide-progress" class="guide-progress"></span>
+          <button id="guide-x" class="guide-x" title="Close" aria-label="Close">✕</button>
+        </header>
+        <h2 id="guide-title" class="guide-title"></h2>
+        <div id="guide-body" class="guide-body"></div>
+        <div id="guide-proof" class="guide-proof" hidden></div>
+        <div class="guide-actions">
+          <button id="guide-do" class="guide-btn guide-strong" hidden></button>
+          <button id="guide-next" class="guide-btn">Another</button>
+          <span class="grow"></span>
+          <button id="guide-stop" class="guide-link">Stop these</button>
+        </div>
+      </section>
+      <button id="guide-avatar" class="guide-avatar" title="Why Markdown?" aria-label="Why Markdown?">
+        <svg class="guide-face" viewBox="0 0 32 32" aria-hidden="true">
+          <path class="guide-sheet" d="M7.5 4.5h11L25 11v16.5h-17.5z" />
+          <path class="guide-fold" d="M18.5 4.5V11H25" />
+          <circle class="guide-eye" cx="13.3" cy="17.2" r="1.45" />
+          <circle class="guide-eye" cx="19.5" cy="17.2" r="1.45" />
+          <path class="guide-smile" d="M13 21.3c1.8 1.6 4.4 1.6 6.2 0" />
+        </svg>
+        <span id="guide-badge" class="guide-badge" hidden></span>
+      </button>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <div id="modal" class="modal-scrim" hidden>
+      <form id="modal-form" class="modal">
+        <label id="modal-title" class="modal-title" for="modal-input">Title</label>
+        <input id="modal-input" class="modal-input" type="text" autocomplete="off" />
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel" class="pill">Cancel</button>
+          <button type="submit" id="modal-ok" class="pill pill-strong">OK</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="./guide.js"></script>
+    <script src="./editor.js"></script>
+  </body>
+</html>
