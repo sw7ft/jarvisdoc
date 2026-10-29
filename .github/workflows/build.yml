@@ -14,6 +14,9 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    # Attaching installers to a release needs more than the default read-only token.
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
